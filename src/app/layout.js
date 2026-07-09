@@ -14,6 +14,8 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Carrito — Control de Gastos",
   description: "Contador de carrito de compras en tiempo real",
+  manifest: "/manifest.json",
+  appleWebApp: { capable: true, title: "Carrito", statusBarStyle: "black-translucent" },
 };
 
 export const viewport = {
@@ -26,7 +28,12 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <script dangerouslySetInnerHTML={{
+          __html: `if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}`
+        }} />
+      </body>
     </html>
   );
 }

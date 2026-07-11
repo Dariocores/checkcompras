@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { format } from "@/utils/constants";
 
 const s = {
@@ -6,7 +7,7 @@ const s = {
   catFilterActive: { background: "var(--accent)", color: "#fff" },
 };
 
-export default function CategoryFilter({ products, catTotals, filterCat, setFilterCat }) {
+function CategoryFilter({ products, catTotals, filterCat, setFilterCat }) {
   if (products.length === 0) return null;
 
   return (
@@ -20,3 +21,5 @@ export default function CategoryFilter({ products, catTotals, filterCat, setFilt
     </div>
   );
 }
+
+export default memo(CategoryFilter);

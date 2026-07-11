@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { DEFAULT_QUANTITY, IVA_RATE, CATEGORIES, loadState, format } from "@/utils/constants";
+import { DEFAULT_QUANTITY, IVA_RATE, CATEGORIES, loadState, format, parsePrice } from "@/utils/constants";
 import { useTheme } from "@/hooks/useTheme";
 import { useAudioFeedback } from "@/hooks/useAudioFeedback";
 import Header from "@/components/Header";
@@ -10,6 +10,8 @@ import BarcodeScanner from "@/components/BarcodeScanner";
 import CategoryFilter from "@/components/CategoryFilter";
 import ProductList from "@/components/ProductList";
 import Footer from "@/components/Footer";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import Toast from "@/components/Toast";
 
 export default function Home() {
   const saved = useMemo(() => loadState(), []);
@@ -23,6 +25,9 @@ export default function Home() {
   const [editingId, setEditingId] = useState(null);
   const [filterCat, setFilterCat] = useState("");
   const [scanning, setScanning] = useState(false);
+  const [confirmClear, setConfirmClear] = useState(false);
+  const [toast, setToast] = useState(null);
+  const removedRef = useRef(null);
 
   const inputRef = useRef(null);
   const debounceRef = useRef(null);
@@ -77,7 +82,7 @@ export default function Home() {
   const grandTotal = useMemo(() => total + iva, [total, iva]);
 
   const budgetPercent = useMemo(
-    () => (budget && Number(budget) > 0 ? (grandTotal / Number(budget)) * 100 : 0),
+    () => (budget && parsePrice(budget) > 0 ? (grandTotal / parsePrice(budget)) * 100 : 0),
     [grandTotal, budget]
   );
 
@@ -90,7 +95,7 @@ export default function Home() {
   function addProduct(e) {
     e.preventDefault();
     const qty = Math.max(1, Number(quantity) || DEFAULT_QUANTITY);
-    const prc = Number(price);
+    const prc = parsePrice(price);
     if (!prc || prc <= 0) return;
     setProducts((prev) => [
       ...prev,
@@ -111,8 +116,17 @@ export default function Home() {
   }
 
   function removeProduct(id) {
+    const product = products.find((p) => p.id === id);
+    removedRef.current = product;
     setProducts((prev) => prev.filter((p) => p.id !== id));
     beep(400, 50, "square");
+    setToast({ message: "Producto eliminado", action: "Deshacer", onAction: undoRemove });
+  }
+
+  function undoRemove() {
+    if (!removedRef.current) return;
+    setProducts((prev) => [...prev, removedRef.current]);
+    removedRef.current = null;
   }
 
   function updateQuantity(id, delta) {
@@ -125,7 +139,7 @@ export default function Home() {
 
   function finishEdit(id, field, value) {
     const clean =
-      field === "price" ? Math.max(0.01, Number(value) || 0) : value.trim() || "Producto";
+      field === "price" ? Math.max(0.01, parsePrice(value) || 0) : value.trim() || "Producto";
     if (field === "price" && clean <= 0) return;
     setProducts((prev) =>
       prev.map((p) => (p.id === id ? { ...p, [field]: clean } : p))
@@ -135,9 +149,12 @@ export default function Home() {
 
   function clearAll() {
     if (products.length === 0) return;
-    if (window.confirm("¿Vaciar todo el carrito?")) {
-      setProducts([]);
-    }
+    setConfirmClear(true);
+  }
+
+  function confirmClearAll() {
+    setProducts([]);
+    setConfirmClear(false);
   }
 
   async function shareList() {
@@ -150,14 +167,14 @@ export default function Home() {
     } else {
       try {
         await navigator.clipboard.writeText(msg);
-        alert("Lista copiada al portapapeles");
+        setToast({ message: "Lista copiada al portapapeles" });
       } catch {}
     }
   }
 
   async function startScan() {
     if (!("BarcodeDetector" in window)) {
-      alert("Tu navegador no soporta el lector de códigos de barras");
+      setToast({ message: "Tu navegador no soporta el lector de códigos de barras" });
       return;
     }
     setScanning(true);
@@ -230,6 +247,23 @@ export default function Home() {
       />
 
       <Footer count={products.length} total={grandTotal} />
+
+      {confirmClear && (
+        <ConfirmDialog
+          message="¿Vaciar todo el carrito?"
+          onConfirm={confirmClearAll}
+          onCancel={() => setConfirmClear(false)}
+        />
+      )}
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          action={toast.action}
+          onAction={toast.onAction}
+          onDone={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }

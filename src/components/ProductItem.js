@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { format } from "@/utils/constants";
 
 const s = {
@@ -16,7 +17,7 @@ const s = {
   qtyValue: { minWidth: 28, textAlign: "center", fontSize: 15, fontWeight: 600 },
 };
 
-export default function ProductItem({
+function ProductItem({
   product, isEditing, onEditStart, onFinishEdit,
   onRemove, onUpdateQuantity, onCancelEdit,
 }) {
@@ -41,13 +42,15 @@ export default function ProductItem({
         )}
       </div>
       <div style={s.itemActions}>
-        <button onClick={() => onRemove(p.id)} className="del-btn" style={s.delBtn}>✕</button>
+        <button onClick={() => onRemove(p.id)} className="del-btn" style={s.delBtn} aria-label={`Eliminar ${p.name}`}>✕</button>
         <div style={s.qtyGroup}>
-          <button onClick={() => onUpdateQuantity(p.id, -1)} className="qty-btn" style={s.qtyBtn}>−</button>
+          <button onClick={() => onUpdateQuantity(p.id, -1)} className="qty-btn" style={s.qtyBtn} aria-label="Disminuir cantidad">−</button>
           <span style={s.qtyValue}>{p.quantity}</span>
-          <button onClick={() => onUpdateQuantity(p.id, 1)} className="qty-btn" style={s.qtyBtn}>+</button>
+          <button onClick={() => onUpdateQuantity(p.id, 1)} className="qty-btn" style={s.qtyBtn} aria-label="Aumentar cantidad">+</button>
         </div>
       </div>
     </div>
   );
 }
+
+export default memo(ProductItem);

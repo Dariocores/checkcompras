@@ -8,14 +8,9 @@ export const CATEGORIES = [
   "Carnes", "Lácteos", "Congelados", "Panadería", "Otros",
 ];
 
-let _nextId = 1;
-
-export function genId() {
-  return _nextId++;
-}
-
-export function setNextId(value) {
-  _nextId = value;
+export function parsePrice(value) {
+  const normalized = String(value).replace(/\./g, "").replace(",", ".");
+  return Number(normalized);
 }
 
 export function format(n) {

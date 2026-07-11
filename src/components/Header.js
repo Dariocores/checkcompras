@@ -1,4 +1,5 @@
-import { format } from "@/utils/constants";
+import { memo } from "react";
+import { format, parsePrice } from "@/utils/constants";
 
 const s = {
   header: { position: "sticky", top: 0, zIndex: 10, paddingBottom: 12, background: "var(--header-bg)" },
@@ -24,7 +25,7 @@ const s = {
   progressText: { fontSize: 12, color: "var(--text-dim)", minWidth: 40, textAlign: "right" },
 };
 
-export default function Header({
+function Header({
   theme, toggleTheme, showIva, setShowIva,
   products, shareList, budget, setBudget,
   total, iva, grandTotal, budgetPercent, totalClass,
@@ -39,9 +40,9 @@ export default function Header({
             IVA 21%
           </label>
           {products.length > 0 && (
-            <button onClick={shareList} style={s.shareBtn} title="Compartir">📤</button>
+            <button onClick={shareList} style={s.shareBtn} title="Compartir" aria-label="Compartir lista">📤</button>
           )}
-          <button onClick={toggleTheme} className="theme-btn" style={s.themeBtn}>
+          <button onClick={toggleTheme} className="theme-btn" style={s.themeBtn} aria-label={theme === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}>
             {theme === "dark" ? "☀️" : "🌙"}
           </button>
         </div>
@@ -59,7 +60,7 @@ export default function Header({
             <span>IVA (21%): $ {format(iva)}</span>
           </div>
         )}
-        {budget && Number(budget) > 0 && (
+        {budget && parsePrice(budget) > 0 && (
           <div style={s.progressWrap}>
             <div style={s.progressBg}>
               <div style={{ ...s.progressFill, width: `${Math.min(budgetPercent, 100)}%`, background: totalClass === "danger" ? "var(--danger)" : totalClass === "warn" ? "var(--warn)" : "var(--accent)" }} />
@@ -71,3 +72,5 @@ export default function Header({
     </header>
   );
 }
+
+export default memo(Header);

@@ -19,14 +19,14 @@ export default function ProductForm({
       <div style={s.formRow}>
         <input ref={inputRef} type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Producto (opcional)" style={{ ...s.input, flex: 3 }} />
         <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Cant" min="1" style={{ ...s.input, flex: 1 }} />
-        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Precio $" min="0.01" step="0.01" style={{ ...s.input, flex: 2 }} />
+        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Precio $ (ej: 150.50)" min="0.01" step="0.01" style={{ ...s.input, flex: 2 }} />
       </div>
       <div style={s.catRow}>
         <select value={category} onChange={(e) => setCategory(e.target.value)} style={{ ...s.input, flex: 1 }}>
           <option value="">Sin categoría</option>
           {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
         </select>
-        <button type="button" onClick={onStartScan} style={s.scanBtn} title="Escanear código de barras">📷</button>
+        <button type="button" onClick={onStartScan} style={s.scanBtn} title="Escanear código de barras" aria-label="Escanear código de barras">📷</button>
       </div>
       <button type="submit" className="add-btn" style={s.addBtn}>+ Agregar</button>
     </form>

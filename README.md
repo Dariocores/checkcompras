@@ -1,37 +1,153 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CheckCompras - Guía de Uso
 
-## Getting Started
+Carrito de compras PWA para control de gastos en tiempo real.
 
-First, run the development server:
+---
+
+## Usar en la Computadora (Web)
+
+### Opción 1: Online (recomendado)
+
+1. Abrí la URL de la app en tu navegador (Chrome, Firefox, Edge, Safari)
+2. Listo, ya podés usarla
+
+### Opción 2: Desarrollo local
 
 ```bash
+git clone https://github.com/Dariocores/checkcompras.git
+cd checkcompras
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrí `http://localhost:3000` en tu navegador.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Instalar en el Celular (PWA)
 
-## Learn More
+La app se instala directamente desde el navegador, **sin necesidad de Play Store ni App Store**.
 
-To learn more about Next.js, take a look at the following resources:
+### Android (Chrome / Samsung Internet)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Abrí la URL de la app en el navegador
+2. Tocá los **3 puntos** (menú) en la esquina superior derecha
+3. Tocá **"Agregar a pantalla de inicio"**
+4. Poné el nombre que quieras (ej: "CheckCompras")
+5. Tocá **"Agregar"**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### iPhone / iPad (Safari)
 
-## Deploy on Vercel
+1. Abrí la URL de la app en **Safari**
+2. Tocá el botón de **compartir** (cuadro con flecha hacia arriba ↑)
+3. Desplazate hacia abajo y tocá **"Agregar a pantalla de inicio"**
+4. Tocá **"Agregar"** en la esquina superior derecha
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Una vez instalada
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# checkcompras
+- Aparece un ícono en la pantalla de inicio como cualquier app
+- Se abre en pantalla completa (sin barra del navegador)
+- **Funciona offline** una vez cargada
+- Se actualiza automáticamente cuando hay cambios en el servidor
+
+---
+
+## Qué hace la app
+
+### Agregar productos
+
+1. Completá el nombre (opcional), cantidad y precio
+2. Elegí una categoría (opcional)
+3. Tocá **"+ Agregar"**
+
+### Escanear código de barras
+
+1. Tocá el ícono de **cámara** 📷 en el formulario
+2. Apuntá al código de barras del producto
+3. Se detecta automáticamente y completa el nombre
+
+> Requiere cámara y un navegador compatible (Chrome, Edge, Samsung Internet)
+
+### Editar un producto
+
+- Tocá sobre el nombre o precio del producto para editarlo inline
+- Presioná **Enter** para guardar o **Escape** para cancelar
+
+### Controlar cantidades
+
+- Usá los botones **+** y **−** a la derecha de cada producto
+
+### Filtrar por categoría
+
+- Los chips debajo del formulario muestran los totales por categoría
+- Tocá un chip para filtrar, tocá **"Todos"** para ver todo
+
+### Compartir la lista
+
+- Tocá el ícono de **compartir** 📤 en el header
+- Se comparte por WhatsApp, messenger, email, etc. (según tu celular)
+- Si no hay opciones de compartir, se copia al portapapeles
+
+### Presupuesto máximo
+
+1. Ingresá un monto en el campo **"Presupuesto máximo"**
+2. Aparece una barra de progreso:
+   - **Verde**: dentro del presupuesto
+   - **Amarillo**: > 80% del presupuesto
+   - **Rojo**: superaste el presupuesto
+
+### IVA
+
+- Activá el checkbox **"IVA 21%"** para incluir el impuesto en el total
+
+### Tema claro / oscuro
+
+- Tocá el ícono de **sol ☀️ / luna 🌙** en el header para cambiar el tema
+
+### Vaciar carrito
+
+- Tocá **"Vaciar carrito"** al final de la lista
+- Se pide confirmación antes de borrar todo
+
+---
+
+## Datos y privacidad
+
+- **Todo queda en tu celular**: no se envía ningún dato a servidores
+- Los productos se guardan en **localStorage** del navegador
+- Si borrás los datos del navegador, se pierde la lista
+- La app funciona **completamente offline** después de la primera carga
+
+---
+
+## Dispositivos compatibles
+
+| Dispositivo | Navegador | Escaneo de barras | Notas |
+|---|---|---|---|
+| Android | Chrome, Edge, Samsung Internet | ✅ Sí | Experiencia completa |
+| Android | Firefox | ✅ Sí | Puede requerir permisos adicionales |
+| iPhone | Safari | ✅ Sí (iOS 15.4+) | Requiere iOS 15.4 o superior |
+| iPhone | Chrome | ✅ Sí (iOS 15.4+) | Misma limitación de iOS |
+| Computadora | Chrome, Edge | ✅ Sí | Funciona con cámara USB o integrada |
+| Computadora | Firefox, Safari | ❌ No | Resto de funciones disponibles |
+
+---
+
+## Solución de problemas
+
+**No se instala como PWA:**
+- Verificá que la conexión sea HTTPS (requerido para PWA)
+- En iPhone, asegurate de usar Safari (no Chrome)
+
+**La cámara no funciona:**
+- Asegurate de haber dado permiso de cámara al navegador
+- En iPhone, verificá en Ajustes → Safari → Cámara
+
+**Se pierden los datos:**
+- Los datos se guardan en localStorage del navegador
+- Si borrás los datos de navegación, se pierde todo
+- Usá la función de compartir para enviar la lista por WhatsApp como respaldo
+
+**La app no carga offline:**
+- Necesitás haberla abierto al menos una vez con conexión
+- El Service Worker cachea los archivos necesarios para funcionar offline

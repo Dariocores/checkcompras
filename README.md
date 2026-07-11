@@ -52,13 +52,22 @@ La app se instala directamente desde el navegador, **sin necesidad de Play Store
 
 ---
 
-## Qué hace la app
+## Funcionalidades
+
+### Múltiples listas de compras
+
+- Usá las **pestañas** arriba del todo para crear, cambiar y eliminar listas
+- Cada lista tiene sus productos, presupuesto e IVA independientes
+- Ideal para tener listas separadas: Supermercado, Ferretería, Farmacia, etc.
+- Tocá **"+ Nueva"** para crear una lista nueva
 
 ### Agregar productos
 
 1. Completá el nombre (opcional), cantidad y precio
 2. Elegí una categoría (opcional)
 3. Tocá **"+ Agregar"**
+
+> Soporta decimales con coma (150,50) o punto (150.50)
 
 ### Escanear código de barras
 
@@ -68,19 +77,41 @@ La app se instala directamente desde el navegador, **sin necesidad de Play Store
 
 > Requiere cámara y un navegador compatible (Chrome, Edge, Samsung Internet)
 
+### Buscar productos
+
+- La barra de **búsqueda** 🔍 filtra productos por nombre en tiempo real
+- Tocá la **✕** para limpiar la búsqueda
+
 ### Editar un producto
 
 - Tocá sobre el nombre o precio del producto para editarlo inline
+- Al editarse, también podés **cambiar la categoría** con el select
 - Presioná **Enter** para guardar o **Escape** para cancelar
 
 ### Controlar cantidades
 
 - Usá los botones **+** y **−** a la derecha de cada producto
 
+### Ordenar la lista
+
+- Seleccioná un criterio de orden en el selector:
+  - **Manual** (orden de agregado)
+  - **Nombre** (A-Z)
+  - **Precio ↑** (menor a mayor)
+  - **Precio ↓** (mayor a menor)
+  - **Categoría** (agrupa por categoría)
+  - **Cantidad** (mayor a menor)
+
 ### Filtrar por categoría
 
 - Los chips debajo del formulario muestran los totales por categoría
 - Tocá un chip para filtrar, tocá **"Todos"** para ver todo
+
+### Exportar / Importar datos
+
+- Botón **📥** para exportar la lista actual como archivo JSON
+- Botón **📤** para importar una lista desde un archivo JSON
+- Sirve para respaldar datos o compartir listas con otros dispositivos
 
 ### Compartir la lista
 
@@ -104,6 +135,16 @@ La app se instala directamente desde el navegador, **sin necesidad de Play Store
 
 - Tocá el ícono de **sol ☀️ / luna 🌙** en el header para cambiar el tema
 
+### Deshacer eliminación
+
+- Al eliminar un producto, aparece un toast con botón **"Deshacer"**
+- Tenés unos segundos para recuperar el producto eliminado
+
+### Indicador offline
+
+- Si perdés la conexión, aparece un banner amarillo indicando que los cambios se guardan localmente
+- La app sigue funcionando normalmente offline
+
 ### Vaciar carrito
 
 - Tocá **"Vaciar carrito"** al final de la lista
@@ -115,7 +156,7 @@ La app se instala directamente desde el navegador, **sin necesidad de Play Store
 
 - **Todo queda en tu celular**: no se envía ningún dato a servidores
 - Los productos se guardan en **localStorage** del navegador
-- Si borrás los datos del navegador, se pierde la lista
+- Podés **exportar** la lista como JSON para tener un respaldo
 - La app funciona **completamente offline** después de la primera carga
 
 ---
@@ -146,8 +187,12 @@ La app se instala directamente desde el navegador, **sin necesidad de Play Store
 **Se pierden los datos:**
 - Los datos se guardan en localStorage del navegador
 - Si borrás los datos de navegación, se pierde todo
-- Usá la función de compartir para enviar la lista por WhatsApp como respaldo
+- **Exportá** la lista regularmente como respaldo (botón 📥)
 
 **La app no carga offline:**
 - Necesitás haberla abierto al menos una vez con conexión
 - El Service Worker cachea los archivos necesarios para funcionar offline
+
+**Formato de precios:**
+- La app acepta tanto coma (150,50) como punto (150.50) como separador decimal
+- El formato argentino (1.500,50) también funciona correctamente
